@@ -63,7 +63,21 @@ export async function POST(req: Request) {
         ]
       }
       // Insert chat into database.
-      await supabase.from('chats').upsert({ id, payload }).throwOnError()
+      await supabase.from('chats').upsert({
+  id,
+  title,
+  userId,
+  createdAt,
+  path,
+  messages: [
+    ...messages,
+    {
+      content: completion,
+      role: 'assistant'
+    }
+  ]
+}).throwOnError()
+
     }
   })
 
